@@ -41,7 +41,7 @@ jobs:
       uses: docker/build-push-action@v4
       with:
         push: true
-        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/CI-CD-GitHubAction-Docker:latest
+        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/ci-cd-githubaction-docker:latest
 
   deploy:
     needs: build-and-push
@@ -64,8 +64,8 @@ jobs:
         
     - name: Deploy to Minikube
       run: |
-        minikube kubectl -- create deployment ci-cd-demo --image=${{ secrets.DOCKER_HUB_USERNAME }}/CI-CD-GitHubAction-Docker:latest
+        minikube kubectl -- create deployment ci-cd-demo --image=${{ secrets.DOCKER_HUB_USERNAME }}/ci-cd-githubaction-docker:latest
         minikube kubectl -- expose deployment ci-cd-demo --type=NodePort --port=3000
         minikube kubectl -- get pods
         minikube kubectl -- get services
-        minikube service CI-CD-GitHubAction-Docker --url
+        minikube service ci-cd-githubaction-docker:latest --url
