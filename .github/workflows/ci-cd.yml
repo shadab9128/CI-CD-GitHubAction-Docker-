@@ -66,6 +66,8 @@ jobs:
       run: |
         minikube kubectl -- create deployment ci-cd-githubaction-docker --image=${{ secrets.DOCKER_HUB_USERNAME }}/ci-cd-githubaction-docker:latest
         minikube kubectl -- expose deployment ci-cd-githubaction-docker --type=NodePort --port=3000
+        echo "Waiting for deployment to be ready..."
+        minikube kubectl -- wait --for=condition=available --timeout=120s deployment/ci-cd-githubaction-docker
         minikube kubectl -- get pods
         minikube kubectl -- get services
-        minikube service ci-cd-githubaction-docker:latest --url
+        minikube service ci-cd-githubaction-docker --url
