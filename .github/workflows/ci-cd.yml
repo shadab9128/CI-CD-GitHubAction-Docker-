@@ -1,0 +1,71 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18'
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Run tests
+      run: npm test
+
+  build-and-push:
+    needs: test
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Login to Docker Hub
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKER_HUB_USERNAME }}
+        password: ${{ secrets.DOCKER_HUB_TOKEN }}
+
+    - name: Build and push
+      uses: docker/build-push-action@v4
+      with:
+        push: true
+        tags: ${{ secrets.DOCKER_HUB_USERNAME }}/CI-CD-GitHubAction-Docker:latest
+
+  deploy:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Install kubectl
+      uses: azure/setup-kubectl@v3
+
+    - name: Start Minikube
+      run: |
+        sudo apt-get update -qq
+        sudo apt-get install -qq -y curl
+        curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+        sudo install minikube-linux-amd64 /usr/local/bin/minikube
+        minikube start --driver=docker
+        
+    - name: Deploy to Minikube
+      run: |
+        minikube kubectl -- create deployment ci-cd-demo --image=${{ secrets.DOCKER_HUB_USERNAME }}/CI-CD-GitHubAction-Docker:latest
+        minikube kubectl -- expose deployment ci-cd-demo --type=NodePort --port=3000
+        minikube kubectl -- get pods
+        minikube kubectl -- get services
+        minikube service CI-CD-GitHubAction-Docker --url
