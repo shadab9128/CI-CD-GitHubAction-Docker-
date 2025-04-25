@@ -1,0 +1,72 @@
+Introduction
+This project demonstrates a fully automated CI/CD pipeline using GitHub Actions and Docker for local deployment without cloud dependencies. The pipeline includes automated testing, Docker image building, and Kubernetes deployment using Minikube for a seamless development-to-production workflow.
+
+Abstract
+The goal was to create a self-contained CI/CD pipeline that:
+
+Automatically runs Jest tests on code push
+
+Builds a Docker image and pushes it to Docker Hub
+
+Deploys the application to a local Minikube cluster
+The project successfully implements GitHub Actions workflows, Docker containerization, and Kubernetes orchestration for a scalable and automated deployment process.
+
+Tools Used
+1. GitHub Actions – CI/CD automation
+
+2. Docker – Containerization & image management
+
+3. Docker Hub – Image registry
+
+4. Minikube – Local Kubernetes cluster
+
+5. kubectl – Kubernetes CLI for deployment
+
+6. Node.js & Express – Backend application
+
+7. Jest & Supertest – Testing framework
+
+Steps Involved in Building the Project
+1. Application Setup
+Created a Node.js/Express web app with / and /health endpoints.
+
+Added Jest & Supertest for automated testing.
+
+2. Docker Containerization
+Wrote a Dockerfile to build the application image.
+
+Configured docker-compose.yml for local development.
+
+3. GitHub Actions CI/CD Pipeline
+Set up three workflow jobs:
+
+Test – Runs npm test on every push.
+
+Build & Push – Builds Docker image and pushes to Docker Hub.
+
+Deploy – Uses Minikube to deploy the image locally.
+
+Secured Docker Hub credentials using GitHub Secrets.
+
+4. Minikube Deployment
+Installed Minikube for local Kubernetes.
+
+Applied kubectl commands to:
+
+Create a deployment (kubectl create deployment)
+
+Expose the service (kubectl expose)
+
+Verify deployment (kubectl get pods/services)
+
+5. Testing & Troubleshooting
+Fixed ImagePullBackOff errors by loading Docker images directly into Minikube.
+
+Verified deployment using minikube service <app-name> --url.
+
+
+Conclusion
+This project successfully implemented a cloud-free CI/CD pipeline using GitHub Actions, Docker, and Minikube. The workflow ensures automated testing, containerization, and Kubernetes deployment, making it ideal for local development and testing before production. Future enhancements could include Helm charts, multi-stage Docker builds, and cloud integration (AWS/GCP) for scalability.
+
+
+
