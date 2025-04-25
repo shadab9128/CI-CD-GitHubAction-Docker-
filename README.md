@@ -69,5 +69,30 @@ minikube service ci-cd-githubaction-docker --url
 
 ## Screenshots
 
-[text](../P-SS)
+### 1.
+![alt text](ss-1.png)
+
+### 2.
+![alt text](ss-2.png)
+
+### 3.
+![alt text](ss-3.png)
+
+### 4.
+![alt text](ss-4.png)
+
+### 5.
+![alt text](ss-5.png)
+
+### 6.
+![alt text](ss-6.png)
+
+### 7.
+![alt text](ss-7.png)
+
+### 8.
+![alt text](ss-8.png)
+
+### 9.
+![alt text](ss-9.png)
 
