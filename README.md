@@ -67,3 +67,7 @@ kubectl expose deployment ci-cd-githubaction-docker --type=NodePort --port=3000
 minikube service ci-cd-githubaction-docker --url
 ```
 
+## Screenshots
+
+[text](../P-SS)
+
