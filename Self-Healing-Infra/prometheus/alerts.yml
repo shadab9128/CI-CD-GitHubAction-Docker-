@@ -1,0 +1,20 @@
+groups:
+- name: service-alerts
+  rules:
+  - alert: NginxDown
+    expr: up{job="nginx"} == 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "Nginx service is down on {{ $labels.instance }}"
+      description: "Nginx has been down for more than 1 minute."
+
+  - alert: HighCPU
+    expr: 100 - (avg by(instance) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 90
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "High CPU usage on {{ $labels.instance }}"
+      description: "CPU usage is {{ $value }}% for last 5 minutes."
